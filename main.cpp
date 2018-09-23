@@ -5,6 +5,7 @@
 using namespace std;
 
 enum grade { A = 4, B = 3, C = 2, D = 1, F = 0 };
+grade stog(string);
 
 class Student; //REMOVE
 
@@ -84,8 +85,25 @@ void Student::readFile(string filepath) {
     string u, n, e, line;
     grade pres, es, proj;
 
-    while (getline(file, line))
-    {}
+    while (getline(file, line)) {
+        u = line;
+        getline(file, n);
+        getline(file, e);
+
+        getline(file, line);
+        pres = stog(line);
+
+        getline(file, line);
+        es = stog(line);
+
+        getline(file, line);
+        proj = stog(line);
+
+        studentList.push_back(new Student(n, u, e, pres, es, proj));
+        getline(file, line); // Gets rid of extra newline
+    }
+
+    file.close();//REMOVE
 }
 
 void Student::writeFile(string filepath) {
@@ -131,4 +149,24 @@ si Student::searchByEmail(string email) {
         }
     }
     return iter;
+}
+
+grade stog(string str) {
+    if (str == "A" || str == "a" || str == "4") {
+        return A;
+    }
+
+    if (str == "B" || str == "b" || str == "3") {
+        return B;
+    }
+
+    if (str == "C" || str == "c" || str == "2") {
+        return C;
+    }
+
+    if (str == "D" || str == "d" || str == "1") {
+        return D;
+    }
+
+    return F;
 }

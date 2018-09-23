@@ -23,7 +23,7 @@ class Student {
     grade essay;
     grade project;
 
-    Student(string n, string u, string e, grade pres, grade es, grade proj)
+    Student(string n, string u, string e, grade pres = F, grade es = F, grade proj = F)
     : name(n), uid(u), email(e), presentation(pres), essay(es), project(proj) {}
 
     void updateStudent(Student newStudent);
@@ -41,8 +41,110 @@ sv studentList;
 
 int main()
 {
+    int choice, choice2;
+    string filename, name, uid, email;
+    grade presentation, essay, project;
+
+    while (true) {
+        cout << "===========================" << endl;
+        cout << "Choose an option:" << endl;
+        cout << "1 - Load from file" << endl;
+        cout << "2 - Save to file" << endl;
+        cout << "3 - Add student" << endl;
+        cout << "4 - Search/Manage student" << endl;
+        cout << "0 - QUIT" << endl;
+        cout << "===========================" << endl;
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Type the name of the file you wish to load: ";
+                cin >> filename;
+                Student::readFile(filename);//REMOVE "Student::"
+                break;
+            case 2:
+                cout << "Type the name of the file you wish to save: ";
+                cin >> filename;
+                Student::writeFile(filename);
+                break;
+            case 3:
+                addStudent();
+                break;
+            case 4:
+                cout << "Search for a student to manage them:" << endl;
+                cout << "1 - Search by name" << endl;
+                cout << "2 - Search by UID" << endl;
+                cout << "3 - Search by email" << endl;
+                cout << "0 - BACK" << endl;
+                cin >> choice2;
+
+                switch (choice2) {
+                    case 1:
+                        cout << "Name of student: ";
+                        cin >> name;
+                        manageStudent(Student::searchByName(name));
+                        break;
+                    case 2:
+                        cout << "UID of student: ";
+                        cin >> uid;
+                        manageStudent(Student::searchByID(uid));
+                        break;
+                    case 3:
+                        cout << "Email of student: ";
+                        cin >> email;
+                        manageStudent(Student::searchByEmail(email));
+                        break;
+                    case 0:
+                    default: break;
+                }
+
+            case 0:
+            default: return 0;
+        }
+    }
     return 0; //REMOVE
 }
+
+void addStudent() {
+    string name, uid, email, temp;
+    grade presentation, essay, project;
+
+    cout << "Name: ";
+    cin >> name;
+
+    cout << "UID: ";
+    cin >> uid;
+
+    cout << "Email: ";
+    cin >> email;
+
+    cout << "Grade on presentation (A/B/C/D/F): ";
+    cin >> temp;
+    presentation = stog(temp);
+
+    cout << "Grade on essay (A/B/C/D/F): ";
+    cin >> temp;
+    essay = stog(temp);
+
+    cout << "Grade on project (A/B/C/D/F): ";
+    cin >> temp;
+    project = stog(temp);
+
+    studentList.push_back(new Student(name, uid, email, presentation, essay, project));
+}
+
+void manageStudent(si iter) {
+    if (iter == studentList.end()) {
+        cout << "Student not found" << endl;
+        return;
+    }
+
+    cout << PRINT_HEADER << endl;
+    cout << (*iter)->toPrintableString() << endl;
+    cout << endl;
+    cout << "Choose an option to manage"
+}
+
 
 void Student::updateStudent(Student newStudent) {
     this->name = newStudent.name;
@@ -79,6 +181,7 @@ string Student::studentToPrintableString() {
 }
 
 void Student::readFile(string filepath) {
+    studentList.clear();//REMOVE
     ifstream file;
     file.open(filepath);
     si iter;

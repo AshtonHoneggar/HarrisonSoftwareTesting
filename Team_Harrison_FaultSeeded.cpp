@@ -1,4 +1,4 @@
-//======================================= File: Team_Harrison_NoFault.cpp ======
+//================================== File: Team_Harrison_FaultSeeding.cpp ======
 //= Authors: Team Harrison...
 //=   Ashton Honeggar
 //=   Ricardo Carrion
@@ -329,8 +329,6 @@ void Student::readFile(string filepath) {
         studentList.push_back(new Student(n, u, e, pres, es, proj));
         getline(file, line); // Gets rid of extra newline
     }
-
-    file.close();//REMOVE
 }
 
 // writeFile()
@@ -341,10 +339,8 @@ void Student::writeFile(string filepath) {
     si iter;
 
     for (iter = studentList.begin(); iter != studentList.end(); iter++) {
-        file << iter.toString() << "\n";//CHANGE THIS TO . INSTEAD OF ->
+        file << iter.toString() << "\n";
     }
-
-    file.close(); //REMOVE
 }
 
 // searchByName()

@@ -265,7 +265,7 @@ void Student::writeFile(string filepath) {
     si iter;
 
     for (iter = studentList.begin(); iter != studentList.end(); iter++) {
-        file << (*iter)->toString() << "\n";//CHANGE THIS TO . INSTEAD OF ->
+        file << (*iter)->toString() << "\n" << "\n";//CHANGE THIS TO . INSTEAD OF ->
     }
 
     file.close(); //REMOVE

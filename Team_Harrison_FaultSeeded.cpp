@@ -146,12 +146,27 @@ void addStudent() {
 
     cout << "Name: ";
     getline(cin, name);
-
+    // check length requirement
+    while (name.length() > 40) {
+        cout << "Name must be less than 40 characters: ";
+        getline(cin, name);
+    }
+    
     cout << "UID: ";
     getline(cin, uid);
+    // check length requirement
+    while (uid.length() != 10) {
+        cout << "UID must be 10 characters: ";
+        getline(cin, uid);
+    }
 
     cout << "Email: ";
     getline(cin, email);
+    // check length requirement
+    while (email.length() > 40) {
+        cout << "Email must be less than 40 characters: ";
+        getline(cin, email);
+    }
 
     cout << "Grade on presentation (A/B/C/D/F): ";
     getline(cin, temp);
@@ -198,14 +213,29 @@ void manageStudent(si iter) {
         case 1:
             cout << "Name (" << (*iter)->name << "): ";
             getline(cin, name);
+            // check length requirements
+            while (name.length() > 40) {
+                cout << "Name must be less than 40 characters: ";
+                getline(cin, name);
+            }
             name = (name == "" ? (*iter)->name : name);
 
             cout << "UID (" << (*iter)->uid << "): ";
             getline(cin, uid);
+            // check length requirements
+            while (uid.length() != 10 && uid.length() != 0) {
+                cout << "UID must be 10 characters: ";
+                getline(cin, uid);
+            }
             uid = (uid == "" ? (*iter)->uid : uid);
 
             cout << "Email (" << (*iter)->email << "): ";
             getline(cin, email);
+            // check length requirements
+            while (email.length() > 40) {
+                cout << "Email must be less than 40 characters: ";
+                getline(cin, email);
+            }
             email = (email == "" ? (*iter)->email : email);
 
             cout << "Grade on presentation (" << gtos((*iter)->presentation) << "): ";

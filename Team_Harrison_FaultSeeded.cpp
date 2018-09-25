@@ -326,7 +326,7 @@ void Student::readFile(string filepath) {
         getline(file, line);
         proj = stog(line);
 
-        studentList.push_back(new Student(n, u, e, pres, es, proj));
+        studentList.push_back(new Student(n, u, e, proj,pres,es)));
         getline(file, line); // Gets rid of extra newline
     }
 }

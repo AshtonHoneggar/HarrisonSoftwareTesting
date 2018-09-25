@@ -23,15 +23,9 @@
 #include <fstream>  // Needed for file I/O
 #include <vector>   // Needed for memory store of students
 
-using namespace std;
-
 // grade
 // enumeration to specify integer values of letter grades
 enum grade { A = 4, B = 3, C = 2, D = 1, F = 0 };
-grade stog(string); // string to grade function
-string gtos(grade); // grade to string function
-
-class Student; //REMOVE
 
 typedef vector<Student*> sv;            // Student vector
 typedef vector<Student*>::iterator si;  // Student iterator
@@ -39,8 +33,6 @@ typedef vector<Student*>::iterator si;  // Student iterator
 
 // class to define Student entries
 class Student {
-    public:
-
     // Data members
     string name;
     string uid;
@@ -54,7 +46,7 @@ class Student {
     : name(n), uid(u), email(e), presentation(pres), essay(es), project(proj) {}
 
     // Object methods
-    void updateStudent(Student *newStudent);//REMOVE "*"
+    void updateStudent(Student newStudent);
     string toString();
     string toPrintableString();
 
@@ -68,7 +60,7 @@ class Student {
 
 // function declarations
 void addStudent();
-void manageStudent(si);//REMOVE "si"
+void manageStudent();
 
 sv studentList; // In-memory list of students
 
@@ -79,7 +71,7 @@ int main()
     int choice, choice2; // store user input
 
     // Store Student members
-    string filename, name, uid, email, trash;
+    string filename, name, uid, email;
     grade presentation, essay, project;
 
     while (true) { // Main loop
@@ -93,20 +85,19 @@ int main()
         cout << "0 - QUIT" << endl;
         cout << "===========================" << endl;
         cin >> choice;
-        getline(cin, trash); // Deletes the '\n' character from cin
 
         switch (choice) { // Main switch
             case 1:
                 cout << endl;
                 cout << "Type the name of the file you wish to load: ";
                 getline(cin, filename);
-                Student::readFile(filename);//REMOVE "Student::"
+                readFile(filename);
                 break;
             case 2:
                 cout << endl;
                 cout << "Type the name of the file you wish to save: ";
                 getline(cin, filename);
-                Student::writeFile(filename);
+                writeFile(filename);
                 break;
             case 3:
                 addStudent();
@@ -119,7 +110,6 @@ int main()
                 cout << "3 - Search by email" << endl;
                 cout << "0 - BACK" << endl;
                 cin >> choice2;
-                getline(cin, trash);
 
                 switch (choice2) { // secondary switch
                     case 1:
@@ -129,25 +119,23 @@ int main()
                         break;
                     case 2:
                         cout << "UID of student: ";
-                        getline(cin, uid);//CHANGE "uid" TO "name"
+                        getline(cin, name);
                         manageStudent(Student::searchByID(uid));
                         break;
                     case 3:
                         cout << "Email of student: ";
-                        getline(cin, email);//CHANGE "email" TO "name"
+                        getline(cin, name);
                         manageStudent(Student::searchByEmail(email));
                         break;
                     case 0:
                     default: break;
                 }
                 cout << endl;
-                break; //REMOVE
 
             case 0:
             default: return 0;
         }
     }
-    return 0; //REMOVE
 } // end of main()
 
 // addStudent()
@@ -289,7 +277,6 @@ void Student::updateStudent(Student *newStudent) {
     this->presentation = newStudent->presentation;
     this->essay = newStudent->essay;
     this->project = newStudent->project;
-    delete newStudent;//REMOVE
 }
 
 // toString()
@@ -319,7 +306,6 @@ string Student::toPrintableString() {
 // readFile()
 // loads students from file into memory
 void Student::readFile(string filepath) {
-    studentList.clear(); //clear current list //REMOVE
     ifstream file;
     file.open(filepath);
     si iter;
@@ -340,11 +326,9 @@ void Student::readFile(string filepath) {
         getline(file, line);
         proj = stog(line);
 
-        studentList.push_back(new Student(n, u, e, pres, es, proj));
+        studentList.push_back(new Student(n, u, e, proj,pres,es)));
         getline(file, line); // Gets rid of extra newline
     }
-
-    file.close();//REMOVE
 }
 
 // writeFile()
@@ -355,10 +339,8 @@ void Student::writeFile(string filepath) {
     si iter;
 
     for (iter = studentList.begin(); iter != studentList.end(); iter++) {
-        file << (*iter)->toString() << "\n\n";//CHANGE THIS TO . INSTEAD OF ->
+        file << iter.toString() << "\n";
     }
-
-    file.close(); //REMOVE
 }
 
 // searchByName()
@@ -367,7 +349,7 @@ si Student::searchByName(string name) {
     si iter;
 
     for (iter = studentList.begin(); iter != studentList.end(); iter++) {
-        if ((*iter)->name == name) {
+        if ((*iter).name == name) {
             return iter;
         }
     }
@@ -379,8 +361,8 @@ si Student::searchByName(string name) {
 si Student::searchByID(string uid) {
     si iter;
 
-    for (iter = studentList.begin(); iter != studentList.end(); iter++) {
-        if ((*iter)->uid == uid) {
+    for (iter = studentList.begin();; iter++) {
+        if (iter.uid == uid) {
             return iter;
         }
     }
@@ -392,8 +374,8 @@ si Student::searchByID(string uid) {
 si Student::searchByEmail(string email) {
     si iter;
 
-    for (iter = studentList.begin(); iter != studentList.end(); iter++) {
-        if ((*iter)->email == email) {
+    for (iter = studentList.begin(); iter >= studentList.begin(); iter++) {
+        if (email == email) {
             return iter;
         }
     }

@@ -1,4 +1,4 @@
-//================================== File: Team_Harrison_FaultSeeding.cpp ======
+//=================================== File: Team_Harrison_FaultSeeded.cpp ======
 //= Authors: Team Harrison...
 //=   Ashton Honeggar
 //=   Ricardo Carrion

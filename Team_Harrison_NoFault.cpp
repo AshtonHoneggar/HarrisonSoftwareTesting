@@ -31,7 +31,7 @@ enum grade { A = 4, B = 3, C = 2, D = 1, F = 0 };
 grade stog(string); // string to grade function
 string gtos(grade); // grade to string function
 
-class Student; //REMOVE
+class Student;
 
 typedef vector<Student*> sv;            // Student vector
 typedef vector<Student*>::iterator si;  // Student iterator
@@ -54,7 +54,7 @@ class Student {
     : name(n), uid(u), email(e), presentation(pres), essay(es), project(proj) {}
 
     // Object methods
-    void updateStudent(Student *newStudent);//REMOVE "*"
+    void updateStudent(Student *newStudent);
     string toString();
     string toPrintableString();
 
@@ -68,7 +68,7 @@ class Student {
 
 // function declarations
 void addStudent();
-void manageStudent(si);//REMOVE "si"
+void manageStudent(si);
 
 sv studentList; // In-memory list of students
 
@@ -100,7 +100,7 @@ int main()
                 cout << endl;
                 cout << "Type the name of the file you wish to load: ";
                 getline(cin, filename);
-                Student::readFile(filename);//REMOVE "Student::"
+                Student::readFile(filename);
                 break;
             case 2:
                 cout << endl;
@@ -129,25 +129,25 @@ int main()
                         break;
                     case 2:
                         cout << "UID of student: ";
-                        getline(cin, uid);//CHANGE "uid" TO "name"
+                        getline(cin, uid);
                         manageStudent(Student::searchByID(uid));
                         break;
                     case 3:
                         cout << "Email of student: ";
-                        getline(cin, email);//CHANGE "email" TO "name"
+                        getline(cin, email);
                         manageStudent(Student::searchByEmail(email));
                         break;
                     case 0:
                     default: break;
                 }
                 cout << endl;
-                break; //REMOVE
+                break;
 
             case 0:
             default: return 0;
         }
     }
-    return 0; //REMOVE
+    return 0;
 } // end of main()
 
 // addStudent()
@@ -158,12 +158,27 @@ void addStudent() {
 
     cout << "Name: ";
     getline(cin, name);
+    // check length requirement
+    while (name.length() > 40) {
+        cout << "Name must be less than 40 characters: ";
+        getline(cin, name);
+    }
 
     cout << "UID: ";
     getline(cin, uid);
+    // check length requirement
+    while (uid.length() != 10) {
+        cout << "UID must be 10 characters: ";
+        getline(cin, uid);
+    }
 
     cout << "Email: ";
     getline(cin, email);
+    // check length requirement
+    while (email.length() > 40) {
+        cout << "Email must be less than 40 characters: ";
+        getline(cin, email);
+    }
 
     cout << "Grade on presentation (A/B/C/D/F): ";
     getline(cin, temp);
@@ -210,14 +225,29 @@ void manageStudent(si iter) {
         case 1:
             cout << "Name (" << (*iter)->name << "): ";
             getline(cin, name);
+            // check length requirements
+            while (name.length() > 40) {
+                cout << "Name must be less than 40 characters: ";
+                getline(cin, name);
+            }
             name = (name == "" ? (*iter)->name : name);
 
             cout << "UID (" << (*iter)->uid << "): ";
             getline(cin, uid);
+            // check length requirements
+            while (uid.length() != 10 && uid.length() != 0) {
+                cout << "UID must be 10 characters: ";
+                getline(cin, uid);
+            }
             uid = (uid == "" ? (*iter)->uid : uid);
 
             cout << "Email (" << (*iter)->email << "): ";
             getline(cin, email);
+            // check length requirements
+            while (email.length() > 40) {
+                cout << "Email must be less than 40 characters: ";
+                getline(cin, email);
+            }
             email = (email == "" ? (*iter)->email : email);
 
             cout << "Grade on presentation (" << gtos((*iter)->presentation) << "): ";
@@ -289,7 +319,7 @@ void Student::updateStudent(Student *newStudent) {
     this->presentation = newStudent->presentation;
     this->essay = newStudent->essay;
     this->project = newStudent->project;
-    delete newStudent;//REMOVE
+    delete newStudent;
 }
 
 // toString()
@@ -319,7 +349,7 @@ string Student::toPrintableString() {
 // readFile()
 // loads students from file into memory
 void Student::readFile(string filepath) {
-    studentList.clear(); //clear current list //REMOVE
+    studentList.clear(); //clear current list
     ifstream file;
     file.open(filepath);
     si iter;
@@ -344,7 +374,7 @@ void Student::readFile(string filepath) {
         getline(file, line); // Gets rid of extra newline
     }
 
-    file.close();//REMOVE
+    file.close();
 }
 
 // writeFile()
@@ -355,10 +385,10 @@ void Student::writeFile(string filepath) {
     si iter;
 
     for (iter = studentList.begin(); iter != studentList.end(); iter++) {
-        file << (*iter)->toString() << "\n\n";//CHANGE THIS TO . INSTEAD OF ->
+        file << (*iter)->toString() << "\n\n";
     }
 
-    file.close(); //REMOVE
+    file.close();
 }
 
 // searchByName()
